@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ubuntu1:
+    image: ubuntu
+    container_name: ubuntu1_container
+    command: tail -f /dev/null # 使容器保持运行
+  ubuntu2:
+    image: ubuntu
+    container_name: ubuntu2_container
+    command: tail -f /dev/null # 使容器保持运行
