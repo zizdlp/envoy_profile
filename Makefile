@@ -21,6 +21,8 @@ envoy_docker_iperf:
 			-c /envoy.yaml
 envoy_client:
 	python grpc_service/client.py --server=localhost:8811 --data_size=1 --times=500
-.PHONY: grpc_server grpc_client envoy_mac envoy_docker envoy_mac_iperf envoy_docker_iperf
+docker_test:
+	docker run --rm -it python bash
+.PHONY: grpc_server grpc_client envoy_mac envoy_docker envoy_mac_iperf envoy_docker_iperf docker_test
 
 
