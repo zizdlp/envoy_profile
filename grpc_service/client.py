@@ -160,5 +160,35 @@ def main():
     print(f"=====streaming call {args.times} times with data_size:{args.data_size}MB: time consume:{e2-s2}")
 
 
+def one():
+    parser = argparse.ArgumentParser(description='gRPC Client Script')
+    parser.add_argument('--server', type=str, default='localhost:50051', help='Server address')
+    parser.add_argument('--data_size', type=int, default=1, help='package 1 is size:1MB')
+    parser.add_argument('--message_length', type=int, default=1000*1024*1024, help='Max message length')
+    parser.add_argument('--times', type=int, default=100, help='Number of times to call')
+
+    args = parser.parse_args()
+
+    logging.basicConfig()
+
+    SERVER_ADDRESS = args.server
+    MAX_MESSAGE_LENGTH = args.message_length
+    options = [
+        ('grpc.max_send_message_length', MAX_MESSAGE_LENGTH),
+        ('grpc.max_receive_message_length', MAX_MESSAGE_LENGTH),
+    ]
+
+    data = np.ones([1024, 1024, args.data_size], dtype="uint8")  # 100MB
+    data = data.tobytes()
+
+    s1 = time.time()
+    unary_call(SERVER_ADDRESS,1,data, options=options)
+    e1 = time.time()
+
+    
+    print(f"=====unary call {args.times} times with data_size:{args.data_size} MB: time consume:{e1-s1}")
+
+
 if __name__ == '__main__':
     main()
+    # one()
