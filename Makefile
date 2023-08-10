@@ -5,6 +5,8 @@ grpc_client:
 	python grpc_service/client.py --server=localhost:50051 --data_size=1 --times=500
 envoy_mac:
 	envoy -c envoy_mac/envoy.yaml
+envoy_mac_convert:
+	envoy -c envoy_mac/envoy_convert.yaml
 envoy_mac_iperf:
 	envoy -c envoy_mac/envoy_iperf.yaml
 envoy_docker:
@@ -21,8 +23,10 @@ envoy_docker_iperf:
 			-c /envoy.yaml
 envoy_client:
 	python grpc_service/client.py --server=localhost:8811 --data_size=1 --times=500
+envoy_compose_client:
+	python grpc_service/client.py --server=localhost:9911 --data_size=1 --times=500
 docker_test:
 	docker run --rm -it python bash
-.PHONY: grpc_server grpc_client envoy_mac envoy_docker envoy_mac_iperf envoy_docker_iperf docker_test
+.PHONY: grpc_server grpc_client envoy_mac envoy_docker envoy_mac_iperf envoy_docker_iperf docker_test envoy_mac_convert envoy_compose_client
 
 
