@@ -15,6 +15,10 @@ envoy_client_http1:
 	docker exec -it compose_test_grpc_server python grpc_service/client.py  --server=grpc-client-proxy-http1:9911 --data_size=$(data_size) --times=$(times)
 envoy_server_http1:
 	docker exec -it compose_test_grpc_server python grpc_service/client.py  --server=grpc-server-proxy-http1:8811 --data_size=$(data_size) --times=$(times)
-.PHONY: compose grpc_client grpc_server envoy_client envoy_server
+local_grpc_server:
+	python grpc_service/server.py
+local_grpc_client:
+	python grpc_service/client.py --server=localhost:50051 --data_size=$(data_size) --times=$(times)
+.PHONY: compose grpc_client grpc_server envoy_client envoy_server local_grpc_server local_grpc_client
 
 
