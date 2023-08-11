@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  grpc-server:
+    build:
+      context: .
+      dockerfile: grpc.Dockerfile
+    volumes:
+      - ${PWD}/grpc_service:/app/grpc_service
+    command: tail -f /dev/null
+    container_name: compose_test_grpc_server
+    networks:
+      envoymesh:
+        aliases:
+        - grpc-server
+  grpc-client:
+    build:
+      context: .
+      dockerfile: grpc.Dockerfile
+    volumes:
+      - ${PWD}/grpc_service:/app/grpc_service
+    command: tail -f /dev/null
+    container_name: compose_test_grpc_client
+    networks:
+      envoymesh:
+        aliases:
+        - grpc-client
+  grpc-server-proxy:
+    build:
+      context: .
+      dockerfile: envoy-server.Dockerfile
+    networks:
+      envoymesh:
+        aliases:
+        - grpc-server-proxy
+  grpc-client-proxy:
+    build:
+      context: .
+      dockerfile: envoy-client.Dockerfile
+    networks:
+      envoymesh:
+        aliases:
+        - grpc-client-proxy
+  grpc-server-proxy-http1:
+    build:
+      context: .
+      dockerfile: envoy-server-http1.Dockerfile
+    networks:
+      envoymesh:
+        aliases:
+        - grpc-server-proxy-http1
+  grpc-client-proxy-http1:
+    build:
+      context: .
+      dockerfile: envoy-client-http1.Dockerfile
+    networks:
+      envoymesh:
+        aliases:
+        - grpc-client-proxy-http1
+networks:
+  envoymesh: {}
