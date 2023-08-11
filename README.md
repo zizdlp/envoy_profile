@@ -36,3 +36,20 @@ flowchart LR
     DockerComposeClient[DockerComposeClient]-->|24Gbps|DockerComposeServer[DockerComposeServer:50051]
 
 ```
+
+## timeconsume[unary,streaming]
+500次调用，每次发10MB，分别采用unary,streaming
+
+```mermaid
+flowchart LR
+    MacClient[MacClient]-->|16.6s,17.5s|MacServer[MacServer:50051]
+    MacClient[MacClient]-->|17.1s,17.3s|MacEnvoy[MacEnvoy:9911]-->MacServer[MacServer:50051]
+
+    MacClient[MacClient]-->|>100s|DockerEnvoyClient[DockerEnvoyClient:9911]-->MacServer[MacServer:50051]
+
+    DockerComposeClient[DockerComposeClient]-->|9.2s,10.5s|DockerComposeServer[DockerComposeServer:50051]
+
+
+
+    DockerComposeClient[DockerComposeClient]-->|http2:11.8s,12.3s,http1:10.9s,12.1s|DockerComposeEnvoyClient[DockerComposeEnvoyClient]-->DockerComposeEnvoyServer[DockerComposeEnvoyServer]-->DockerComposeServer[DockerComposeServer:50051]
+```
